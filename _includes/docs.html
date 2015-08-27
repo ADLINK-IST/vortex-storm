@@ -16,6 +16,35 @@
                         </code></pre>
                 </div><!--//code-block-->
             </div><!--//block-->
+
+            <div class="block">
+                <h3 class="sub-title text-center">Create a data builder</h3>
+                <p>In order for the connector to convert the Vortex data into a format that can be consumed by Storm an implementation of the SampleBuilder interface is needed.</p>
+                
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-java">class ShapeBuilder implements SampleBuilder&lt;ShapeType&gt; {
+    private static final long serialVersionUID = 3617142942620304724L;
+
+    @Override
+    public List&gt;Object&lt; deSerialize(Sample&lt;ShapeType&gt; sample) {
+        return Arrays.asList(sample.getData().color, 
+                             sample.getData().x, 
+                             sample.getData().y, 
+                             sample.getData().shapesize);
+    }
+
+    @Override
+    public ShapeType serialize(Tuple tuple) {
+        final String color = tuple.getString(0);
+        final Integer x = tuple.getInteger(1);
+        final Integer y = tuple.getInteger(2);
+        final Integer size = tuple.getInteger(3);
+        return new ShapeType(color, x, y, size);
+    }
+}</code></pre>
+                </div><!--//code-block-->
+            </div><!--//block-->
             
             <div class="block">
                 <h3 class="sub-title text-center">Create Spout</h3>
