@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+        PrismTech licenses this file to You under the Apache License, Version 2.0
+        (the "License"); you may not use this file except in compliance with the
+        License and with the PrismTech Vortex product. You may obtain a copy of
+        the License at
+
+                        http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+        WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+        License and README for the specific language governing permissions and
+        limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.prismtech.vortex.demos</groupId>
+    <artifactId>vortex-storm</artifactId>
+    <version>0.7.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Vortex Storm</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.sourceEncoding>UTF-8</project.reporting.sourceEncoding>
+
+        <vortex-opensplice-version>6.5.0p3</vortex-opensplice-version>
+        <vortex-cafe-version>2.1.1</vortex-cafe-version>
+
+        <vortex-commons-version>0.7.0</vortex-commons-version>
+
+        <apache-storm-version>0.9.4</apache-storm-version>
+        <logback-classic-version>1.1.2</logback-classic-version>
+        <slf4j-api-version>1.7.10</slf4j-api-version>
+
+        <exec-maven-plugin-version>1.2.1</exec-maven-plugin-version>
+        <maven-shade-plugin-version>2.3</maven-shade-plugin-version>
+        <maven-compiler-plugin-version>3.3</maven-compiler-plugin-version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.prismtech.vortex</groupId>
+            <artifactId>vortex-commons</artifactId>
+            <version>${vortex-commons-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.storm</groupId>
+            <artifactId>storm-core</artifactId>
+            <version>${apache-storm-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Dependencies related to Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-classic-version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Configure Maven to target Java 1.8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin-version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>cafe-build</id>
+            <activation>
+                <property>
+                    <name>dds.runtime</name>
+                    <value>cafe</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.prismtech.cafe</groupId>
+                    <artifactId>cafe</artifactId>
+                    <version>${vortex-cafe-version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ospl-build</id>
+            <activation>
+                <property>
+                    <name>dds.runtime</name>
+                    <value>ospl</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>opensplice</groupId>
+                    <artifactId>dcpssaj</artifactId>
+                    <version>${vortex-opensplice-version}</version>
+                    <scope>system</scope>
+                    <systemPath>${env.OSPL_HOME}/jar/dcpssaj5.jar</systemPath>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
+</project>
