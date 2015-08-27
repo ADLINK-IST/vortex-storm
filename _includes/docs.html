@@ -1,0 +1,42 @@
+    <!-- ******DOCS****** --> 
+    <section id="docs" class="docs section">
+        <div class="container">
+            <div class="docs-inner">
+            <h2 class="title text-center">Get Started</h2>
+            <div class="block">
+                <h3 class="sub-title text-center">Create configuration</h3>
+                <p>In order to be able to create either a Spout or Bolt you need a configuration object that describes the type of data be read or written from Vortex.</p>
+                
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-java">VortexConfig&lt;ShapeType&gt; vortexConfig = 
+    new VortexConfig<ShapeType>(0, "Circle", ShapeType.class, "ShapeType",
+                        new ShapeBuilder(), 
+                        new String[]{"color", "x", "y", "shapeSize"}, 100);
+                        </code></pre>
+                </div><!--//code-block-->
+            </div><!--//block-->
+            <div class="block">
+                <h3 class="sub-title text-center">Create Spout</h3>
+                <p>To consume data from Vortex we need to create a Spout.</p>
+                
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-java">topologyBuilder.setSpout(
+                "vortex-spout", new VortexSpout<ShapeType>(vortexConfig), 1);
+                        </code></pre>
+                </div><!--//code-block-->
+            </div><!--//block-->
+            <div class="block">
+                <h3 class="sub-title text-center">Create Bolt</h3>
+                <p>To write data to Vortex we need to create a Bolt.</p>
+                
+                <div class="code-block">
+                    <!--//Use Prismjs - http://prismjs.com/index.html#basic-usage -->
+                    <pre><code class="language-java">topologyBuilder.setBolt("vortex-writer", new VortexWriterBolt<ShapeType>(writerConfig), 1);
+                        </code></pre>
+                </div><!--//code-block-->
+            </div><!--//block-->
+            </div><!--//docs-inner-->         
+        </div><!--//container-->
+    </section><!--//docs->
